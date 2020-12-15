@@ -5,7 +5,7 @@ import logoImg from '../assets/img/logo.svg';
 import userImg from '../assets/img/header/user.svg';
 
 const NavBarStyled = styled.header`
-    position: fidex;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 999;
