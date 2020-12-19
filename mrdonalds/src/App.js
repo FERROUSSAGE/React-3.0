@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import GlobalStyle from './components/GlobalStyle';
 
 import NavBar from './components/NavBar';
 import Menu from './components/Menu';
+import ModalItem from './components/ModalItem'
 
 function App() {
-  return (
-    <>
-      <GlobalStyle/>
-      <NavBar/>
-      <Menu/>
-    </>
+
+    const [openItem, setOpenItem] = useState(null);
+
+    return (
+        <>
+            <GlobalStyle/>
+            <NavBar/>
+            <Menu setOpenItem={setOpenItem}/>
+            <ModalItem openItem={openItem} setOpenItem={setOpenItem}/>
+        </>
   );
 }
 
