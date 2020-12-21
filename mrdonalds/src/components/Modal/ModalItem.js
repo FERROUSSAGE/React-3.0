@@ -62,16 +62,22 @@ const Button = styled.button`
 `;
 
 
-const ModalItem = ({ openItem, setOpenItem }) => {
+const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
-    console.log(openItem);
     const closeModal = e => {
         const target = e.target;
         if(target.matches('#overlay'))
             setOpenItem(null);
     }
 
-    if(!openItem) return null;
+    const order = { ...openItem };
+
+    const addToOrder = () => {
+        console.log(openItem);
+        setOrders([...orders, order]);
+        setOpenItem(null);
+    };
+
     return <Overlay id="overlay" onClick={closeModal}>
         <Modal>
             <Banner img={openItem.img}></Banner>
@@ -79,7 +85,7 @@ const ModalItem = ({ openItem, setOpenItem }) => {
                 <h3>{openItem.name}</h3>
                 <h3>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</h3>
             </Content>
-            <Button>Добавить</Button>
+            <Button onClick={addToOrder}>Добавить</Button>
         </Modal>
     </Overlay>
 };
