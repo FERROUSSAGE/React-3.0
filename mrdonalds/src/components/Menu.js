@@ -9,6 +9,7 @@ import bannerImg from '../assets/img/Menu/banner.png';
 const MenuStyled = styled.main`
     background-color: #ccc;
     margin-top: 80px;
+    margin-left: 380px;
 `;
 
 const SectionMenu = styled.section`
