@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 
+import { rubString } from "../../assets/js/functions";
+
 const List = styled.ul`
     display: flex;
     justify-content: space-arround;
@@ -45,7 +47,7 @@ const ListItem = ({ itemList, setOpenItem }) => {
         {itemList.map(item => {
             return <Item key={item.id} img={item.img} onClick={() => setOpenItem(item)}>
                 <p>{item.name}</p>
-                <p>{item.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</p>
+                <p>{ rubString(item.price) }</p>
             </Item>
         })}
     </List>

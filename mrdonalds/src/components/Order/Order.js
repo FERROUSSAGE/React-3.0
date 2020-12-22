@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import OrderListItem from "./OrderListItem";
+import { rubString, TotalPriceItems } from "../../assets/js/functions";
 
 const OrderStyled = styled.section`
     position: fixed;
@@ -69,10 +70,13 @@ const EmptyList = styled.p`
 `;
 
 const Order = ({ orders }) => {
+
+    const total = orders && orders.reduce((result, order) => TotalPriceItems(order) + result, 0);
+
     return <OrderStyled>
         <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
         <OrderContent>
-            { orders.length ?  <OrderList>
+            { orders && orders.length ?  <OrderList>
                 { orders.map((order, i) => <OrderListItem key={i} order={order}/>) }
             </OrderList> :
                 <EmptyList>Список заказов пуст!</EmptyList> }
@@ -80,7 +84,7 @@ const Order = ({ orders }) => {
         <Total>
             <span>Итого</span>
             <span>5</span>
-            <TotalPrice>850 Р</TotalPrice>
+            <TotalPrice>{ rubString(total) }</TotalPrice>
         </Total>
         <Button>Оформить</Button>
     </OrderStyled>

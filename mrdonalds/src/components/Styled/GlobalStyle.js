@@ -46,13 +46,22 @@ const GlobalStyle = createGlobalStyle`
   }
 
   input, button {
-    font-family: inherit;
+    font: inherit;
   }
 
   button {
     font-size: 16px;
     color: white;
     cursor: pointer;
+  }
+  
+  input[type='number'] {
+    -moz-appearance: none;
+  }
+  
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
   }
 `;
 

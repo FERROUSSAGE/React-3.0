@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import CountItem from "./CountItem";
+import useCount from "../Hooks/useCount";
+
+import { rubString, TotalPriceItems } from "../../assets/js/functions";
+
 const Overlay = styled.div`
     position: fixed;
     display: flex;
@@ -33,8 +38,14 @@ const Banner = styled.div`
 
 const Content = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 0 50px;
+    
+    div {
+        display: flex;
+        justify-content: space-between;
+    }
+    
 `;
 
 const Button = styled.button`
@@ -61,8 +72,14 @@ const Button = styled.button`
     }
 `;
 
+const TotalPriceItem = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
 
 const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
+
+    const counter = useCount();
 
     const closeModal = e => {
         const target = e.target;
@@ -70,10 +87,9 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
             setOpenItem(null);
     }
 
-    const order = { ...openItem };
+    const order = { ...openItem, count: counter.count};
 
     const addToOrder = () => {
-        console.log(openItem);
         setOrders([...orders, order]);
         setOpenItem(null);
     };
@@ -82,8 +98,15 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
         <Modal>
             <Banner img={openItem.img}></Banner>
             <Content>
-                <h3>{openItem.name}</h3>
-                <h3>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</h3>
+                <div>
+                    <h3>{openItem.name}</h3>
+                    <h3>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</h3>
+                </div>
+                <CountItem {...counter}/>
+                <TotalPriceItem>
+                    <span>Цена: </span>
+                    <span>{ rubString(TotalPriceItems(order))}</span>
+                </TotalPriceItem>
             </Content>
             <Button onClick={addToOrder}>Добавить</Button>
         </Modal>
