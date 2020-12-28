@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import CountItem from "./CountItem";
 import useCount from "../Hooks/useCount";
+import Toppings from './Toppings';
+import useToppings from '../Hooks/useTopping';
 
 import { rubString, TotalPriceItems } from "../../assets/js/functions";
 
@@ -45,7 +47,10 @@ const Content = styled.div`
         display: flex;
         justify-content: space-between;
     }
-    
+
+    span{
+        margin: 35px 0;
+    }
 `;
 
 const Button = styled.button`
@@ -80,15 +85,14 @@ const TotalPriceItem = styled.div`
 const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
     const counter = useCount();
-
+    const toppings = useToppings(openItem);
     const closeModal = e => {
         const target = e.target;
         if(target.matches('#overlay'))
             setOpenItem(null);
     }
 
-    const order = { ...openItem, count: counter.count};
-
+    const order = { ...openItem, count: counter.count, topping: toppings.toppings};
     const addToOrder = () => {
         setOrders([...orders, order]);
         setOpenItem(null);
@@ -103,6 +107,7 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
                     <h3>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</h3>
                 </div>
                 <CountItem {...counter}/>
+                {openItem.toppings ? <Toppings {...toppings}/> : <span></span>}
                 <TotalPriceItem>
                     <span>Цена: </span>
                     <span>{ rubString(TotalPriceItems(order))}</span>

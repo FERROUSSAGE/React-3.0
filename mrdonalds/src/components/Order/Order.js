@@ -72,7 +72,9 @@ const EmptyList = styled.p`
 const Order = ({ orders }) => {
 
     const total = orders && orders.reduce((result, order) => TotalPriceItems(order) + result, 0);
-
+    
+    const totalCounter = orders && orders.reduce((result, order) => order.count + result, 0);
+    
     return <OrderStyled>
         <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
         <OrderContent>
@@ -83,7 +85,7 @@ const Order = ({ orders }) => {
         </OrderContent>
         <Total>
             <span>Итого</span>
-            <span>5</span>
+            <span>{totalCounter}</span>
             <TotalPrice>{ rubString(total) }</TotalPrice>
         </Total>
         <Button>Оформить</Button>

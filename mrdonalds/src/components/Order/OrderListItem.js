@@ -33,11 +33,37 @@ const TrashButton = styled.button`
     background-repeat: no-repeat;
 `;
 
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    max-width: 150px;
+`;
+
+const ToppingList = styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+`;
+
+const ToppingItem = styled.li`
+    font-size: 12px;
+    margin: 0 2px;
+`;
+
+const OrderCount = styled.span`
+    margin-left: 10px;
+`;
+
 const OrderListItem = ({ order }) => {
 
     return <OrderItemStyled>
-        <ItemName>{order.name}</ItemName>
-        <span>{order.count}</span>
+        <Wrapper>
+            <ItemName>{order.name}</ItemName>
+            {order.topping && <ToppingList>{order.topping.map((item, i) => (
+                item.checked && <ToppingItem key={i}>{item.name}</ToppingItem>
+            ))}</ToppingList>}
+        </Wrapper>
+        <OrderCount>{order.count}</OrderCount>
         <ItemPrice>{ rubString(TotalPriceItems(order)) }</ItemPrice>
         <TrashButton/>
     </OrderItemStyled>
