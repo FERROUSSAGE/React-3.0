@@ -2,9 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import CountItem from "./CountItem";
-import useCount from "../Hooks/useCount";
 import Toppings from './Toppings';
+import Choices from './Choices'
+
+import useCount from "../Hooks/useCount";
 import useToppings from '../Hooks/useTopping';
+import useChoices from '../Hooks/useChoices';
 
 import { rubString, TotalPriceItems } from "../../assets/js/functions";
 
@@ -47,10 +50,6 @@ const Content = styled.div`
         display: flex;
         justify-content: space-between;
     }
-
-    span{
-        margin: 35px 0;
-    }
 `;
 
 const Button = styled.button`
@@ -75,6 +74,10 @@ const Button = styled.button`
     &:active {
         opacity: .5
     }
+
+    &:disabled {
+        background: red;
+    }
 `;
 
 const TotalPriceItem = styled.div`
@@ -86,13 +89,21 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
     const counter = useCount();
     const toppings = useToppings(openItem);
+    const choices = useChoices();
+
     const closeModal = e => {
         const target = e.target;
         if(target.matches('#overlay'))
             setOpenItem(null);
     }
 
-    const order = { ...openItem, count: counter.count, topping: toppings.toppings};
+    const order = { 
+        ...openItem,
+        count: counter.count, 
+        topping: toppings.toppings,
+        choice: choices.choices
+    };
+
     const addToOrder = () => {
         setOrders([...orders, order]);
         setOpenItem(null);
@@ -107,13 +118,16 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
                     <h3>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</h3>
                 </div>
                 <CountItem {...counter}/>
-                {openItem.toppings ? <Toppings {...toppings}/> : <span></span>}
+                {openItem.toppings ? <Toppings {...toppings}/> : ''}
+                {openItem.choices ? <Choices {...choices} openItem={openItem}/> : ''}
                 <TotalPriceItem>
                     <span>Цена: </span>
                     <span>{ rubString(TotalPriceItems(order))}</span>
                 </TotalPriceItem>
             </Content>
-            <Button onClick={addToOrder}>Добавить</Button>
+            <Button 
+                onClick={addToOrder}
+                disabled={order.choices && !choices.choice}>Добавить</Button>
         </Modal>
     </Overlay>
 };
