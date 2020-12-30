@@ -40,6 +40,7 @@ const Button = styled.button`
     outline: 0;
     display: inline-flex;
     flex-direction: column;
+    padding: 0;
 
     img{
         height: 25px;
@@ -47,16 +48,37 @@ const Button = styled.button`
     }
 `;
 
-const NavBar = () => {
+const User = styled.div`
+    display: flex;
+    align-items: center;
+
+    div {
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+`;
+
+const NavBar = ({ authentication, logIn, logOut }) => {
     return <NavBarStyled>
         <Logo>
             <Img src={logoImg} alt="Logo MrDonalds"/>   
             <H1>MrDonalds</H1> 
         </Logo>
-        <Button>
+        { authentication ?
+        <User>
+            <Img src={authentication.photoURL} alt={authentication.displayName}/>
+            <div>
+                <span>{authentication.displayName}</span>
+                <Button onClick={logOut}>
+                    Выйти
+                </Button>
+            </div>
+        </User>  : 
+        <Button onClick={logIn}>
             <Img src={userImg} alt="Icon user"/>
             Войти
-        </Button>
+        </Button> }
     </NavBarStyled>
 }
 

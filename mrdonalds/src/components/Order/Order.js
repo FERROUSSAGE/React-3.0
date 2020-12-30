@@ -69,7 +69,7 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-const Order = ({ orders, setOrders, setOpenItem }) => {
+const Order = ({ orders, setOrders, setOpenItem, authentication, logIn }) => {
 
     const total = orders && orders.reduce((result, order) => TotalPriceItems(order) + result, 0);
     
@@ -80,6 +80,8 @@ const Order = ({ orders, setOrders, setOpenItem }) => {
         newOrders.splice(index, 1);
         setOrders(newOrders);
     }
+
+    const orderConfirm = () => authentication ? console.log(orders) : logIn();
 
     return <OrderStyled>
         <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
@@ -94,7 +96,7 @@ const Order = ({ orders, setOrders, setOpenItem }) => {
             <span>{totalCounter}</span>
             <TotalPrice>{ rubString(total) }</TotalPrice>
         </Total>
-        <Button>Оформить</Button>
+        <Button onClick={orderConfirm}>Оформить</Button>
     </OrderStyled>
 };
 
