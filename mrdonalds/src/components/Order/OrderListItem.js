@@ -6,7 +6,7 @@ import { rubString, TotalPriceItems } from "../../assets/js/functions";
 
 const OrderItemStyled = styled.li`
     display: flex;
-    margin: 15px 0;
+    margin: 10px 0;
     flex-wrap: wrap;
 `;
 
@@ -36,20 +36,27 @@ const TrashButton = styled.button`
 const Toppings = styled.div`
     color: #9a9a9a;
     font-size: 12px;
+    margin-top: -10px;
 `;
 
-const OrderListItem = ({ order, index, deleteItem }) => {
+const OrderListItem = ({ order, index, setOpenItem, deleteItem }) => {
 
-    const toppingString = order.topping && order.topping.filter(item => item.checked)
-        .map(item => item.name).join(', ');
+    const toppingString = order.topping ? order.topping.filter(item => item.checked)
+        .map(item => item.name).join(', ') : null;
 
-    return <OrderItemStyled>
-        <ItemName>{order.name}</ItemName>
-        <span>{order.count}</span>
-        <ItemPrice>{ rubString(TotalPriceItems(order)) }</ItemPrice>
-        <TrashButton onClick={() => deleteItem(index)}/>
-        <Toppings>{toppingString}</Toppings>
-    </OrderItemStyled>
+    const btnDeleteRef = React.useRef();
+
+    return <>
+        <OrderItemStyled onClick={(e) => e.target !== btnDeleteRef.current && setOpenItem({...order, index})}>
+            <ItemName>{order.name}</ItemName>
+            <span>{order.count}</span>
+            <ItemPrice>{ rubString(TotalPriceItems(order)) }</ItemPrice>
+            <TrashButton ref={btnDeleteRef} onClick={() => deleteItem(index)}/>
+        </OrderItemStyled>
+        {toppingString && <Toppings>{toppingString}</Toppings>}
+    </> 
+    
+
 };
 
 export default OrderListItem;

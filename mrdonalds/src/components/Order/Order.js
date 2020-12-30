@@ -32,7 +32,7 @@ const OrderList = styled.ul`
 
 const Total = styled.div`
     display: flex;
-    margin-bottom: 30px;
+    margin: 10px 0 30px 0;
     & span:first-child {
         flex-grow: 1;
     }
@@ -69,7 +69,7 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-const Order = ({ orders, setOrders }) => {
+const Order = ({ orders, setOrders, setOpenItem }) => {
 
     const total = orders && orders.reduce((result, order) => TotalPriceItems(order) + result, 0);
     
@@ -85,7 +85,7 @@ const Order = ({ orders, setOrders }) => {
         <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
         <OrderContent>
             { orders && orders.length ?  <OrderList>
-                { orders.map((order, i) => <OrderListItem key={i} order={order} index={i} deleteItem={deleteItem}/>) }
+                { orders.map((order, i) => <OrderListItem key={i} order={order} index={i} setOpenItem={setOpenItem} deleteItem={deleteItem}/>) }
             </OrderList> :
                 <EmptyList>Список заказов пуст!</EmptyList> }
         </OrderContent>

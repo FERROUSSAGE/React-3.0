@@ -87,9 +87,10 @@ const TotalPriceItem = styled.div`
 
 const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
-    const counter = useCount();
+    const counter = useCount(openItem.count);
     const toppings = useToppings(openItem);
     const choices = useChoices();
+    const isEdit = openItem.index > -1;
 
     const closeModal = e => {
         const target = e.target;
@@ -106,6 +107,13 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
 
     const addToOrder = () => {
         setOrders([...orders, order]);
+        setOpenItem(null);
+    };
+
+    const editOrder = () => {
+        const newOrders = [...orders];
+        newOrders[openItem.index] = order;
+        setOrders(newOrders);
         setOpenItem(null);
     };
 
@@ -126,8 +134,8 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
                 </TotalPriceItem>
             </Content>
             <Button 
-                onClick={addToOrder}
-                disabled={order.choices && !choices.choice}>Добавить</Button>
+                onClick={isEdit ? editOrder : addToOrder}
+                disabled={order.choices && !choices.choice}>{isEdit ? "Редактировать" : "Добавить"}</Button>
         </Modal>
     </Overlay>
 };
