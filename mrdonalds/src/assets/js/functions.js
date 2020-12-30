@@ -12,4 +12,12 @@ const TotalPriceItems = (order) => {
   return (order.price + priceTopping) * order.count;
 }
 
-export { rubString, TotalPriceItems };
+const projection = (rules) => {
+  const keys = Object.keys(rules);
+  return obj => keys.reduce((newObj, key) => {
+    newObj[key] = rules[key].reduce((acc, fn, index) => ( index ? fn(acc) : obj[fn]), null);
+    return newObj;
+  }, {})
+}
+
+export { rubString, TotalPriceItems, projection };

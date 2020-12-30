@@ -102,7 +102,7 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
         ...openItem,
         count: counter.count, 
         topping: toppings.toppings,
-        choice: choices.choices
+        choice: choices.choice
     };
 
     const addToOrder = () => {
