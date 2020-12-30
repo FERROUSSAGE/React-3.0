@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 import ListItem from './ListItem'
 
-import useFetch from '../Hooks/useFetch';
-
 import bannerImg from '../../assets/img/Menu/banner.png';
 
 const MenuStyled = styled.main`
@@ -46,29 +44,25 @@ const Preloader = styled.div`
     background: transparent url('//i.gifer.com/Xqg8.gif') no-repeat center center;
 `;
 
-const Menu = ({ setOpenItem }) => {
+const Menu = ({ setOpenItem, dbMenu }) => {
 
-    const result = useFetch(),
-        DBMenu = result.response;
-        
     return <MenuStyled>
         <BannerMenu/>
-        { DBMenu ?
+        { dbMenu ?
         <>
             <SectionMenu>
             <h2>Бургеры</h2>
             <ListItem 
-                itemList={DBMenu.burger}
+                itemList={dbMenu.burger}
                 setOpenItem={setOpenItem}/>
             </SectionMenu>
             <SectionMenu>
                 <h2>Закуски / Напитки</h2>
                 <ListItem 
-                    itemList={DBMenu.other}
+                    itemList={dbMenu.other}
                     setOpenItem={setOpenItem}/>
             </SectionMenu>
-        </> : result.error ? 
-        <div>Не получается загрузить меню!:(</div> :
+        </> : 
         <Preloader/>}
     </MenuStyled>
 }

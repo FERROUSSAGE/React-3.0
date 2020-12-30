@@ -1,23 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-const useFetch = () => {
-    const [response, setResponse] = React.useState(null);
-    const [error, setError] = React.useState(null);
+const useFetch = (database) => {
+    const [data, setData] = React.useState(null);
+    React.useEffect(() => {
+        const refDB = database.ref('goods');
+        refDB.on('value', snapshot => {
+            setData(snapshot.val());
+        })
+    }, [database]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const json = await fetch('DB.json');
-                const res = await json.json();
-                setResponse(res);
-            } catch (error) {
-                setError(error);
-            }
-        }
-        fetchData();
-    }, []);
-
-    return { response, error };
+    return data;
 };
 
 export default useFetch;
