@@ -89,7 +89,7 @@ const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, firebase
             order: newOrder
         });
 
-        setOrders(null);
+        setOrders([]);
     }
 
     const total = orders && orders.reduce((result, order) => TotalPriceItems(order) + result, 0);
