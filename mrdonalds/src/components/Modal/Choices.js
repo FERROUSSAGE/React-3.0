@@ -1,8 +1,11 @@
 import React from 'react'
+import { ContextItem } from '../Context/context';
 
 import { Wrap, Label, Input } from '../Styled/Choice&Topping'
 
-const Choices = ({ changeChoices, openItem, choice }) => {
+const Choices = () => {
+
+    const { choices: {changeChoices, choice}, openItem } = React.useContext(ContextItem);
 
     return <>
         <h3>Выбирайте: </h3>

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import ListItem from './ListItem'
 
+import { Context } from '../Context/context';
+
 import bannerImg from '../../assets/img/Menu/banner.png';
 
 const MenuStyled = styled.main`
@@ -44,8 +46,9 @@ const Preloader = styled.div`
     background: transparent url('//i.gifer.com/Xqg8.gif') no-repeat center center;
 `;
 
-const Menu = ({ setOpenItem, dbMenu }) => {
-
+const Menu = () => {
+    const { openItem: {setOpenItem}, dbMenu } = React.useContext(Context);
+    
     return <MenuStyled>
         <BannerMenu/>
         { dbMenu ?

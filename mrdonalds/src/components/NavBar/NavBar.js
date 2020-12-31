@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import logoImg from '../../assets/img/logo.svg';
 import userImg from '../../assets/img/header/user.svg';
 
+import { Context } from '../Context/context';
+
 const NavBarStyled = styled.header`
     position: fixed;
     top: 0;
@@ -59,7 +61,9 @@ const User = styled.div`
     }
 `;
 
-const NavBar = ({ authentication, logIn, logOut }) => {
+const NavBar = () => {
+    const { auth: { authentication, logIn, logOut } } = React.useContext(Context);
+    
     return <NavBarStyled>
         <Logo>
             <Img src={logoImg} alt="Logo MrDonalds"/>   

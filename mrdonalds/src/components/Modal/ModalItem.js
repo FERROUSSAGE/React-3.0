@@ -9,6 +9,8 @@ import useCount from "../Hooks/useCount";
 import useToppings from '../Hooks/useTopping';
 import useChoices from '../Hooks/useChoices';
 
+import { Context, ContextItem } from '../Context/context';
+
 import { rubString, TotalPriceItems } from "../../assets/js/functions";
 
 const Overlay = styled.div`
@@ -85,7 +87,9 @@ const TotalPriceItem = styled.div`
     justify-content: space-between;
 `;
 
-const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
+const ModalItem = () => {
+
+    const { openItem: { openItem, setOpenItem }, orders: {orders, setOrders} } = React.useContext(Context);
 
     const counter = useCount(openItem.count);
     const toppings = useToppings(openItem);
@@ -117,27 +121,29 @@ const ModalItem = ({ openItem, setOpenItem, orders, setOrders }) => {
         setOpenItem(null);
     };
 
-    return <Overlay id="overlay" onClick={closeModal}>
-        <Modal>
-            <Banner img={openItem.img}></Banner>
-            <Content>
-                <div>
-                    <h3>{openItem.name}</h3>
-                    <h3>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</h3>
-                </div>
-                <CountItem {...counter}/>
-                {openItem.toppings ? <Toppings {...toppings}/> : ''}
-                {openItem.choices ? <Choices {...choices} openItem={openItem}/> : ''}
-                <TotalPriceItem>
-                    <span>Цена: </span>
-                    <span>{ rubString(TotalPriceItems(order))}</span>
-                </TotalPriceItem>
-            </Content>
-            <Button 
-                onClick={isEdit ? editOrder : addToOrder}
-                disabled={order.choices && !choices.choice}>{isEdit ? "Редактировать" : "Добавить"}</Button>
-        </Modal>
-    </Overlay>
+    return <ContextItem.Provider value={{counter, toppings, choices, openItem:openItem}}>
+        <Overlay id="overlay" onClick={closeModal}>
+            <Modal>
+                <Banner img={openItem.img}></Banner>
+                <Content>
+                    <div>
+                        <h3>{openItem.name}</h3>
+                        <h3>{openItem.price.toLocaleString('ru-RU', {style: 'currency', currency: 'RUB'})}</h3>
+                    </div>
+                    <CountItem />
+                    {openItem.toppings ? <Toppings /> : ''}
+                    {openItem.choices ? <Choices /> : ''}
+                    <TotalPriceItem>
+                        <span>Цена: </span>
+                        <span>{ rubString(TotalPriceItems(order))}</span>
+                    </TotalPriceItem>
+                </Content>
+                <Button 
+                    onClick={isEdit ? editOrder : addToOrder}
+                    disabled={order.choices && !choices.choice}>{isEdit ? "Редактировать" : "Добавить"}</Button>
+            </Modal>
+        </Overlay>
+    </ContextItem.Provider>
 };
 
 export default ModalItem;

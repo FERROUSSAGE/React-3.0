@@ -1,8 +1,12 @@
 import React from 'react'
+import { ContextItem } from '../Context/context';
 
 import { Wrap, Label, Input } from '../Styled/Choice&Topping'
 
-const Toppings = ({ toppings, checkToppings }) => {
+const Toppings = () => {
+
+    const { toppings: { toppings, checkToppings } } = React.useContext(ContextItem);
+
     return <>
         <h3>Добавки:</h3>
         <Wrap>
