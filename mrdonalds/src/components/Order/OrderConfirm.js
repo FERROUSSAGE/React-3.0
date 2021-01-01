@@ -24,8 +24,8 @@ const rulesData = {
     name: ['name'],
     price: ['price'],
     count: ['count'],
-    topping: ['topping', item => item.filter(obj => obj.checked).map(obj => obj.name), arr => arr.length ? arr : 'no toppings'],
-    choice: ['choice', item => item ? item : 'no choices']
+    topping: ['topping', item => item.filter(obj => obj.checked).map(obj => obj.name), arr => arr.length ? arr : undefined],
+    choice: ['choice', item => item ? item : undefined]
 };
 
 
@@ -36,17 +36,19 @@ const OrderConfirm = () => {
 
     const total = orders && orders.reduce((result, order) => TotalPriceItems(order) + result, 0);
     const sendOrder = (target) => {
+        if(orders.length === 0){
+            setOpenOrderConfirm(false);
+            return;
+        }
         const newOrder = orders.map(projection(rulesData));
         database.ref('orders').push().set({
             name: authentication.displayName,
             email: authentication.email,
+            totalPrice: total,
             order: newOrder
         });
     
         setOrders([]);
-        if(target.textContent === 'Спасибо!')
-            setOpenOrderConfirm(false)
-
         setTimeout(() => setOpenOrderConfirm(false), 5000);
     }
     
