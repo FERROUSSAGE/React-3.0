@@ -21,17 +21,19 @@ const sendOrderEmail = data => {
         html: `
             <div>
                 <h2>Здравствуйте, ${data.name}</h2>
+                <span>Ваш заказ:</span>
                 <ul>
                     ${data.order.map((item, i) => {
                         return `<li>
                             <div>
-                                <p>${item.name}(${item.choice !== undefined ? item.choice : ''}) - ${item.count}шт.</p>
-                                ${Array.isArray(item.topping) ? `<p>Добавки: ${Array.isArray(item.topping) ? item.topping.join(', ') : "Нет"}</p>` : ''}
+                                <p>${item.name} ${item.choice !== "" ? `(${item.choice})` : ''} - ${item.count}шт.</p>
+                                ${item.topping !== "" ? `<p>Добавки: ${Array.isArray(item.topping) ? item.topping.join(', ') : "Нет"}</p>` : ''}
                             </div>
                         </li>`
                     })}
                 </ul>
                 <span>Итоговая цена: ${data.totalPrice}руб</span>
+                <p><b>Скоро Ваш заказ будет на Вашем столе! Приятного аппетита:)</b></p>
             </div>
         `
     }

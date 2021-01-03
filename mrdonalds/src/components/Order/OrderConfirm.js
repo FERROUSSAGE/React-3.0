@@ -24,8 +24,8 @@ const rulesData = {
     name: ['name'],
     price: ['price'],
     count: ['count'],
-    topping: ['topping', item => item.filter(obj => obj.checked).map(obj => obj.name), arr => arr.length ? arr : undefined],
-    choice: ['choice', item => item ? item : undefined]
+    topping: ['topping', item => item.filter(obj => obj.checked).map(obj => obj.name), arr => arr.length ? arr : ""],
+    choice: ['choice', item => item ? item : ""]
 };
 
 
@@ -56,10 +56,10 @@ const OrderConfirm = () => {
         <Modal>
             <OrderTitle>{authentication.displayName}</OrderTitle>
             <Text>{orders.length > 0 ? "Осталось только подтвердить Ваш заказ!" : "Спасибо за Ваш заказ!"}</Text>
-            <Total>
+            {orders.length > 0 && <Total>
                 <span>Итого:</span>
                 <TotalPrice>{rubString(total)}</TotalPrice>
-            </Total>
+            </Total>}
             <Button onClick={(e) => sendOrder(e.target)}>{orders.length > 0 ? "Подтвердить" : 'Спасибо!'}</Button>
         </Modal>
     </Overlay>

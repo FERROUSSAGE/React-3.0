@@ -48,7 +48,7 @@ const OrderListItem = ({ order, index, setOpenItem, deleteItem }) => {
 
     return <>
         <OrderItemStyled onClick={(e) => e.target !== btnDeleteRef.current && setOpenItem({...order, index})}>
-            <ItemName>{order.name}</ItemName>
+            <ItemName>{order.name}{order.choice && ` (${order.choice})`}</ItemName>
             <span>{order.count}</span>
             <ItemPrice>{ rubString(TotalPriceItems(order)) }</ItemPrice>
             <TrashButton ref={btnDeleteRef} onClick={() => deleteItem(index)}/>
